@@ -22,7 +22,8 @@ class Databaseprovider extends ChangeNotifier {
 
   getAlldrugs() async {
     List<Map<String, dynamic>> rows = await DBHelper.dbHelper.selectAlldrugs();
-    List<DrugModel> drugs =  rows != null ? rows.map((e) => DrugModel.fromMap(e)).toList() : [];
+    List<DrugModel> drugs =
+        rows != null ? rows.map((e) => DrugModel.fromMap(e)).toList() : [];
     fillLists(drugs);
   }
 

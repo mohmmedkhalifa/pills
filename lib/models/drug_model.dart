@@ -4,6 +4,8 @@ class DrugModel {
   int id;
   String drugname;
   String drugdose;
+  String imageUrl;
+
   // int date;
   // String time;
 
@@ -13,15 +15,18 @@ class DrugModel {
     this.id,
     this.drugname,
     this.drugdose,
+    //this.imageUrl,
     // this.time,
     // this.date,
-    this.isMedicine,
+    this.isMedicine =false,
   });
 
   DrugModel.fromMap(Map map) {
     this.id = map[DBHelper.drugIdColumn];
     this.drugname = map[DBHelper.drugNameColumnn];
     this.drugdose = map[DBHelper.drugDoseColumn];
+    //   this.imageUrl = map[DBHelper.drugImageUrl];
+
     // this.date = map[DBHelper.drugDateColumnn];
     // this.time = map[DBHelper.drugTimeColumn];
     this.isMedicine =
@@ -32,6 +37,8 @@ class DrugModel {
     return {
       DBHelper.drugNameColumnn: this.drugname,
       DBHelper.drugDoseColumn: this.drugdose,
+      //DBHelper.drugImageUrl: this.imageUrl,
+
       // DBHelper.drugDateColumnn: this.date,
       // DBHelper.drugTimeColumn: this.time,
       DBHelper.drugIsMedicineColumnName: this.isMedicine ? 1 : 0

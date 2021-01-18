@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
+import 'package:pills_reminder/UI/3home.dart';
+
 //import 'package:pills/models/drug_model.dart';
 import 'package:pills_reminder/UI/4add.dart';
 import 'package:pills_reminder/models/drug_model.dart';
@@ -14,7 +16,11 @@ import 'package:pills_reminder/widget/circle_day.dart';
 import 'package:provider/provider.dart';
 
 class AddMed extends StatefulWidget {
-  AddMed({Key key}) : super(key: key);
+  AddMed({this.drugModel, this.edit});
+
+  int edit;
+
+  DrugModel drugModel;
 
   @override
   _AddMedState createState() => _AddMedState();
@@ -25,6 +31,9 @@ class _AddMedState extends State<AddMed> {
   ValueChanged<TimeOfDay> selectTime;
 
   DrugModel myDrug = DrugModel();
+
+  String s1 = "Enter Name";
+  String s2 = "Enter Dose";
 
   @override
   void initState() {
@@ -68,19 +77,25 @@ class _AddMedState extends State<AddMed> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     AddWidget(
+                      initialValue: widget.edit==1? widget.drugModel.drugname :s1,
                       onChanged: (value) {
-                        dN = value;
+                        widget.edit == 1
+                            ? widget.drugModel.drugname = value
+                            : myDrug.drugname = value;
                       },
-                      label: translator.translate("medname"),
+                
                     ),
                     SizedBox(
                       height: 20,
                     ),
                     AddWidget(
+                      initialValue: widget.edit==1? widget.drugModel.drugdose :s2,
                       onChanged: (value) {
-                        doN = value;
+                        widget.edit == 1
+                            ? widget.drugModel.drugdose = value
+                            : myDrug.drugdose = value;
                       },
-                      label: translator.translate("meddose"),
+
                     ),
                     Container(
                       child: Column(
@@ -161,10 +176,14 @@ class _AddMedState extends State<AddMed> {
                     SizedBox(height: 40),
                     CheckboxListTile(
                         title: Text('Medicine'),
-                        value: isMedicine,
+                        value: widget.edit == 1
+                            ? widget.drugModel.isMedicine
+                            : isMedicine,
                         onChanged: (value) {
                           isMedicine = value;
-                          myDrug.isMedicine = isMedicine;
+                          widget.edit == 1
+                              ? widget.drugModel.isMedicine = isMedicine
+                              : myDrug.isMedicine = isMedicine;
                           setState(() {});
                         }),
                     SizedBox(height: 40),
@@ -180,12 +199,13 @@ class _AddMedState extends State<AddMed> {
                             style: TextStyle(color: Colors.white, fontSize: 25),
                           ),
                           onPressed: () {
-                            context.read<Databaseprovider>().insertNewdrug(
-                                  DrugModel(
-                                      drugname: dN,
-                                      drugdose: doN,
-                                      isMedicine: isMedicine),
-                                );
+                            widget.edit == 1
+                                ? context
+                                    .read<Databaseprovider>()
+                                    .updatedrug(widget.drugModel)
+                                : context
+                                    .read<Databaseprovider>()
+                                    .insertNewdrug(myDrug);
                             print(myDrug.drugname);
                             Navigator.pop(context);
                             // Drugmodel drugmodel = Drugmodel(
@@ -195,6 +215,11 @@ class _AddMedState extends State<AddMed> {
                             //     .insertIntoDatabse(drugmodel);
 
                             // Navigator.pop(context);
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) {
+                                return Home();
+                              }),
+                            );
                           }),
                     ),
                     SizedBox(height: 30),

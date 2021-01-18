@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:pills_reminder/UI/2intro.dart';
+import 'package:pills_reminder/UI/2intro1.dart';
 import 'package:pills_reminder/providers/database_provider.dart';
 import 'package:pills_reminder/utilities/Colors.dart';
 import 'package:pills_reminder/utilities/style.dart';
@@ -11,9 +12,9 @@ class Splash extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.delayed(Duration(seconds: 3)).then((value) {
-     context.read<Databaseprovider>().getAlldrugs();
+      context.read<Databaseprovider>().getAlldrugs();
       Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-        return Intro();
+        return Intro1();
       }));
     });
     return Scaffold(

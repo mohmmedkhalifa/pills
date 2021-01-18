@@ -38,7 +38,7 @@ class Vitaminewedgit extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       image: DecorationImage(
-                          image: AssetImage('assets/images/capsules.jpg'),
+                          image: AssetImage('assets/images/add1.jpg'),
                           fit: BoxFit.cover),
                     ),
                     width: 100,

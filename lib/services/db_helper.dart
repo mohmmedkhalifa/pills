@@ -12,6 +12,8 @@ class DBHelper {
   static final String drugIdColumn = 'drugid';
   static final String drugNameColumnn = 'drugname';
   static final String drugDoseColumn = 'drugdose';
+  // static final String drugImageUrl = 'imageUrl';
+
   // static final String drugDateColumnn = 'drugdate';
   // static final String drugTimeColumn = 'drugtime';
   static final String drugIsMedicineColumnName = 'isComplete';
@@ -40,6 +42,7 @@ class DBHelper {
     database.execute('''CREATE TABLE $tableName(
 $drugIdColumn INTEGER PRIMARY KEY AUTOINCREMENT,
 $drugNameColumnn TEXT NOT NULL,
+
 $drugDoseColumn TEXT NOT NULL,
 $drugIsMedicineColumnName INTEGER NOT NULL
 )''');
@@ -75,7 +78,6 @@ $drugIsMedicineColumnName INTEGER NOT NULL
     }
   }
 
-
   getOnedrug(int id) async {
     try {
       List<Map<String, dynamic>> result = await database
@@ -90,9 +92,14 @@ $drugIsMedicineColumnName INTEGER NOT NULL
   }
 
   updateDrug(DrugModel drugmodel) async {
-    drugmodel.isMedicine = !drugmodel.isMedicine;
-    database.update(tableName, drugmodel.toMap(),
-        where: '$drugIdColumn=?', whereArgs: [drugmodel.id]);
+    //drugmodel.isMedicine = !drugmodel.isMedicine;
+    try {
+      database.update(tableName, drugmodel.toMap(),
+          where: '$drugIdColumn=?', whereArgs: [drugmodel.id]);
+      print('Updated');
+    } on Exception catch (e) {
+      print(e);
+    }
   }
 
   deleteAlldrugs() async {

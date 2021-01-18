@@ -5,15 +5,17 @@ import 'package:pills_reminder/utilities/Colors.dart';
 
 class AddWidget extends StatelessWidget {
   @override
-  String label;
+
   Function onChanged;
-  AddWidget({@required this.label, this.onChanged});
+  String initialValue;
+  AddWidget({this.onChanged, this.initialValue});
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       onChanged: onChanged,
+
       decoration: InputDecoration(
-          labelText: translator.translate(label),
+          hintText:  initialValue,
           focusColor: maincolor,
           hoverColor: maincolor,
           fillColor: maincolor,
